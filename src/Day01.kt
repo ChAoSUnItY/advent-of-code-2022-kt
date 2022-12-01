@@ -1,11 +1,11 @@
 fun main() {
     fun part1(input: List<String>): Int =
         input.joinToString(separator = "\n")
-            .split("\n\n").maxOfOrNull {
+            .split("\n\n").maxOf {
                 it.split("\n")
                     .map(String::toInt)
                     .sum()
-            } ?: 0
+            }
 
     fun part2(input: List<String>): Int =
         input.joinToString(separator = "\n")
@@ -15,7 +15,7 @@ fun main() {
                     .sum()
             }
             .sortedDescending()
-            .subList(0, 3)
+            .take(3)
             .sum()
 
 //    val input = readInput("Day01_Example")
