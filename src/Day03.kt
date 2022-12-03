@@ -19,7 +19,6 @@ fun main() {
                     .priority()
             }
 
-
     val input = readInput("Day03")
     println(part1(input))
     println(part2(input))

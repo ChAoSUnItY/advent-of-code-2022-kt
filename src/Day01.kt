@@ -18,10 +18,6 @@ fun main() {
             .take(3)
             .sum()
 
-//    val input = readInput("Day01_Example")
-//    println(part1(input))
-//    println(part2(input))
-
     val input = readInput("Day01")
     println(part1(input))
     println(part2(input))
