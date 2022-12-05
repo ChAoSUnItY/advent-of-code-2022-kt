@@ -1,5 +1,4 @@
 import java.util.*
-import kotlin.collections.ArrayList
 
 val instructionRegex = Regex("\\d+")
 
@@ -30,11 +29,11 @@ fun parseStackData(data: List<String>): List<LinkedList<Char>> {
 }
 
 fun processInstructions(data: List<String>): List<Instruction> =
-    data.map { 
+    data.map {
         val (count, from, to) = instructionRegex.findAll(it)
             .map { match -> match.value.toInt() }
             .toList()
-        
+
         Instruction(count, from, to)
     }
 
@@ -63,7 +62,7 @@ fun main() {
         return stacks.map(LinkedList<Char>::peek)
             .joinToString("")
     }
-    
+
     val input = readInput("Day05")
 
     println(part1(processData(input)))
