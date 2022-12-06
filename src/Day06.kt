@@ -1,29 +1,11 @@
 fun main() {
-    fun part1(data: String): Int {
-        for (count in 4 until data.length) {
-            if (data.substring(count - 4 until count)
-                    .toSet()
-                    .size == 4
-            ) {
-                return count
-            }
-        }
+    fun part1(data: String): Int =
+        data.windowed(4)
+            .indexOfFirst { it.toSet().size == it.length } + 4
 
-        return 0
-    }
-
-    fun part2(data: String): Int {
-        for (count in 14 until data.length) {
-            if (data.substring(count - 14 until count)
-                    .toSet()
-                    .size == 14
-            ) {
-                return count
-            }
-        }
-
-        return 0
-    }
+    fun part2(data: String): Int =
+        data.windowed(14)
+            .indexOfFirst { it.toSet().size == it.length } + 14
 
     val input = readInput("Day06")[0]
     
