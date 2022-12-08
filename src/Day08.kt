@@ -1,5 +1,3 @@
-import kotlin.math.max
-
 typealias GridWalk = Pair<IntProgression, IntProgression>
 typealias GridCrossWalk = IntProgression
 
@@ -23,6 +21,8 @@ fun main() {
                 .map(Char::digitToInt)
         }
 
+    // Optimized, per element is iterated 4 times from different directions,
+    // which means the time complexity is O((N ^ 2) * 4), where N is size of data (N ^ 2)
     fun part1(data: List<List<Int>>): Int {
         val size = data.size
         val visible = Array(size) { BooleanArray(size) }
@@ -55,7 +55,18 @@ fun main() {
             .count { it } + size * 4 - 4
     }
 
-    fun part2(data: List<List<Int>>): Int = 
+    fun part1Unoptimized(data: List<List<Int>>): Int =
+        data.withIndex().flatMap { (y, row) ->
+            row.withIndex().map { (x, height) ->
+                gridCrossWalk(data.size, x, y).withIndex().map { (i, gridWalk) ->
+                    gridWalk.map {
+                        if (i < 2) data[y][it] else data[it][x]
+                    }.all { it < height }
+                }.any { it }
+            }.filter { it }
+        }.count()
+
+    fun part2(data: List<List<Int>>): Int =
         data.withIndex().flatMap { (y, row) ->
             row.withIndex().map { (x, treeHouseHeight) ->
                 gridCrossWalk(data.size, x, y).withIndex().map { (i, gridWalk) ->
@@ -71,5 +82,6 @@ fun main() {
     val data = readInput("Day08")
     val processedData = processData(data)
     println(part1(processedData))
+    // println(part1Unoptimized(processedData))
     println(part2(processedData))
 }
