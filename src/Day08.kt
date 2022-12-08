@@ -15,7 +15,7 @@ fun main() {
 
     fun gridCrossWalk(size: Int, startX: Int, startY: Int): List<GridCrossWalk> =
         listOf(startX, startY).flatMap { getRanges(size, it) }
-    
+
     fun processData(data: List<String>): List<List<Int>> =
         data.map {
             it.toCharArray()
@@ -55,30 +55,18 @@ fun main() {
             .count { it } + size * 4 - 4
     }
 
-    fun part2(data: List<List<Int>>): Int {
-        val size = data.size
-        var maxScenicScore = 0
-
-        for ((y, row) in data.withIndex()) {
-            for ((x, treeHouseHeight) in row.withIndex()) {
-                val directionScenicScores = IntArray(4)
-
-                for ((i, gridWalk) in gridCrossWalk(size, x, y).withIndex()) {
-                    for (offset in gridWalk) {
-                        directionScenicScores[i]++
-                        val height =
-                            if (i < 2) data[y][offset]
-                            else data[offset][x]
-                        if (height >= treeHouseHeight) break
-                    }
-                }
-
-                maxScenicScore = max(directionScenicScores.fold(1, Int::times), maxScenicScore)
+    fun part2(data: List<List<Int>>): Int = 
+        data.withIndex().flatMap { (y, row) ->
+            row.withIndex().map { (x, treeHouseHeight) ->
+                gridCrossWalk(data.size, x, y).withIndex().map { (i, gridWalk) ->
+                    gridWalk.map {
+                        if (i < 2) data[y][it] else data[it][x]
+                    }.takeWhileInclusive { // Collections.kt
+                        it < treeHouseHeight
+                    }.count()
+                }.reduce(Int::times)
             }
-        }
-
-        return maxScenicScore
-    }
+        }.max()
 
     val data = readInput("Day08")
     val processedData = processData(data)
