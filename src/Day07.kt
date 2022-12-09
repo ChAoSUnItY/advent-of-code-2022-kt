@@ -13,7 +13,6 @@ sealed class Node {
     }
 }
 
-
 fun main() {
     fun processData(data: List<String>): Node.DirNode {
         val dirTree = Node.DirNode("/")
