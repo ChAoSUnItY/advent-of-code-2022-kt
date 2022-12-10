@@ -56,9 +56,9 @@ fun main() {
     }
 
     fun part1Unoptimized(data: List<List<Int>>): Int =
-        data.withIndex().flatMap { (y, row) ->
-            row.withIndex().map { (x, height) ->
-                gridCrossWalk(data.size, x, y).withIndex().map { (i, gridWalk) ->
+        data.flatMapIndexed { y, row ->
+            row.mapIndexed { x, height ->
+                gridCrossWalk(data.size, x, y).mapIndexed { i, gridWalk ->
                     gridWalk.map {
                         if (i < 2) data[y][it] else data[it][x]
                     }.all { it < height }
@@ -67,9 +67,9 @@ fun main() {
         }.count()
 
     fun part2(data: List<List<Int>>): Int =
-        data.withIndex().flatMap { (y, row) ->
-            row.withIndex().map { (x, treeHouseHeight) ->
-                gridCrossWalk(data.size, x, y).withIndex().map { (i, gridWalk) ->
+        data.flatMapIndexed { y, row ->
+            row.mapIndexed { x, treeHouseHeight ->
+                gridCrossWalk(data.size, x, y).mapIndexed { i, gridWalk ->
                     gridWalk.map {
                         if (i < 2) data[y][it] else data[it][x]
                     }.takeWhileInclusive { // Collections.kt
